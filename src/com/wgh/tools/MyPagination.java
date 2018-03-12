@@ -3,19 +3,19 @@ package com.wgh.tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wgh.model.Diary;
+import com.wgh.model.Venue;
 
 
 
 public class MyPagination {
-	public List<Diary> list=null;
+	public List<Venue> list=null;
 	private int recordCount=0;	//记录数
 	private int pagesize=0;		//每页显示的记录数
 	private int maxPage=0;		//最大页数
 
 	//初始化分页信息
-	public List<Diary> getInitPage(List<Diary> list,int Page,int pagesize){
-		List<Diary> newList=new ArrayList<Diary>();
+	public List<Venue> getInitPage(List<Venue> list,int Page,int pagesize){
+		List<Venue> newList=new ArrayList<Venue>();
 		this.list=list;
 		recordCount=list.size();	//获取list集合的元素个数
 		this.pagesize=pagesize;
@@ -25,22 +25,23 @@ public class MyPagination {
 			try{
 				if(i>=recordCount){break;}
 			}catch(Exception e){}
-				newList.add((Diary)list.get(i));
+				newList.add((Venue)list.get(i));
 		}
 		}catch(Exception e){
 			e.printStackTrace();//输出异常信息
 		}
+		//返回本页显示内容
 		return newList;
 	}
 	//获取指定页的数据
-	public List<Diary> getAppointPage(int Page){
-		List<Diary> newList=new ArrayList<Diary>();
+	public List<Venue> getAppointPage(int Page){
+		List<Venue> newList=new ArrayList<Venue>();
 		try{
 			for(int i=(Page-1)*pagesize;i<=Page*pagesize-1;i++){
 				try{
 					if(i>=recordCount){break;}
 				}catch(Exception e){}
-					newList.add((Diary)list.get(i));
+					newList.add((Venue)list.get(i));
 			}
 			}catch(Exception e){
 				e.printStackTrace();//输出异常信息
@@ -75,9 +76,10 @@ public class MyPagination {
 
 	/**
 	 * 在页面中输出分页导航
-	 * @param Page
-	 * @param url
-	 * @param para
+	 * 及浏览下一页的目标位置
+	 * @param Page 当前页码
+	 * @param url 访问路径
+	 * @param para 预处理数
 	 * @return
 	 */
 	public String printCtrl(int Page,String url,String para){

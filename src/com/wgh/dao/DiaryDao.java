@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.wgh.model.Diary;
+import com.wgh.model.Venue;
 import com.wgh.tools.ConnDB;
 
 public class DiaryDao {
@@ -24,12 +24,12 @@ public class DiaryDao {
 	 * @param sql
 	 * @return
 	 */
-	public List<Diary> queryDiary(String sql) {
+	public List<Venue> queryDiary(String sql) {
 		ResultSet rs = conn.executeQuery(sql);// 执行查询语句
-		List<Diary> list = new ArrayList<Diary>();
+		List<Venue> list = new ArrayList<Venue>();
 		try {// 捕获异常
 			while (rs.next()) {
-				Diary diary = new Diary();
+				Venue diary = new Venue();
 				diary.setId(rs.getInt(1));// 获取并设置ID
 				diary.setTitle(rs.getString(2));// 获取并设置日记标题
 				diary.setAddress(rs.getString(3));// 获取并设置图片地址
@@ -62,7 +62,7 @@ public class DiaryDao {
 	 * @param diary
 	 * @return
 	 */
-	public int saveDiary(Diary diary) {
+	public int saveDiary(Venue diary) {
 		String sql = "INSERT INTO tb_diary (title,address,userid) VALUES('"
 				+ diary.getTitle() + "','" + diary.getAddress() + "',"
 				+ diary.getUserid() + ")";		//保存数据的SQL语句

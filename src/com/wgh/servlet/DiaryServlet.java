@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.wgh.dao.DiaryDao;
-import com.wgh.model.Diary;
+import com.wgh.model.Venue;
 import com.wgh.tools.MyPagination;
 
 /**
@@ -112,7 +112,7 @@ public class DiaryServlet extends HttpServlet {
 		// 获取日记内容
 		String strPage = (String) request.getParameter("Page");// 获取当前页码
 		int Page = 1;
-		List<Diary> list = null;
+		List<Venue> list = null;
 		if (strPage == null) {
 			int userid = Integer.parseInt(session.getAttribute("uid")
 					.toString()); // 获取用户ID号
@@ -211,7 +211,7 @@ public class DiaryServlet extends HttpServlet {
 		ImageIO.write(image, "JPG", new File(scaleImgUrl)); // 保存缩略图文件
 		/***********************************************************************/
 		/**** 将填写的日记保存到数据库中 *****/
-		Diary diary = new Diary();
+		Venue diary = new Venue();
 		diary.setAddress(String.valueOf(value));// 设置图片地址
 		diary.setTitle(session.getAttribute("title").toString());// 设置日记标题
 		diary.setUserid(Integer
@@ -242,7 +242,7 @@ public class DiaryServlet extends HttpServlet {
 		String strPage = (String) request.getParameter("Page");// 获取当前页码
 
 		int Page = 1;
-		List<Diary> list = null;
+		List<Venue> list = null;
 		if (strPage == null) {// 当页面初次运行
 			String sql = "select d.*,u.username from tb_diary d inner join tb_user u on u.id=d.userid order by d.writeTime DESC limit 50";
 			pagination = new MyPagination();

@@ -134,6 +134,8 @@ public class SQLConnDB {
 		}
 	}
 	
+	
+	
 	public static void main(String[]args){
 		SQLConnDB baseCreater = SQLConnDB.getInstance();
 		System.out.print(baseCreater.connection);

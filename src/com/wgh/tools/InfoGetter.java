@@ -1,11 +1,11 @@
-package dao;
+package com.wgh.tools;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-import com.wgh.tools.SQLConnDB;
 
 public class InfoGetter {
 	
@@ -13,6 +13,7 @@ public class InfoGetter {
 	private SQLConnDB baseCreater;
 	private static InfoGetter infoGetter;
 	public PreparedStatement preparedStatement;
+	public Statement statement;
 	public Connection connection; 
 	
 	public static InfoGetter getInstance() {
@@ -29,6 +30,12 @@ public class InfoGetter {
 		baseCreater = SQLConnDB.getInstance();
 		connection = baseCreater.connection;
 		preparedStatement = baseCreater.preparedStatement;
+		try {
+			statement= connection.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//读取目标表中的所有元素
@@ -78,6 +85,36 @@ public class InfoGetter {
 	         
 	          
 	    }  
+
+	/**
+	 * 下面是对数据 增删改查的操作，其中sql 表示待执行的sql语言
+	 * @param sql
+	 */
+	/*
+	 * 功能：执行查询语句
+	 */
+	public ResultSet executeQuery(String sql) {
+		ResultSet rs = null;
+		try { // 捕捉异常
+			 rs = statement.executeQuery(sql);
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage()); // 输出异常信息
+		}
+		return rs; // 返回结果集对象
+	}
+
+	/*
+	 * 功能:执行更新操作
+	 */
+	public int executeUpdate(String sql) {
+		int result = 0; // 定义保存返回值的变量
+		try { // 捕捉异常
+			result = statement.executeUpdate(sql); // 执行更新操作
+		} catch (SQLException ex) {
+			result = 0; // 将保存返回值的变量赋值为0
+		}
+		return result; // 返回保存返回值的变量
+	}
 
 	public static void main(String[]args) {
 		InfoGetter infoGetter = InfoGetter.getInstance();

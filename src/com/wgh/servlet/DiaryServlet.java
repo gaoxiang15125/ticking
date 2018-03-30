@@ -16,8 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.wgh.dao.DiaryDao;
+import com.wgh.dao.VenueDao;
 import com.wgh.model.Venue;
+import com.wgh.tools.InfoGetter;
 import com.wgh.tools.MyPagination;
 
 /**
@@ -26,7 +27,7 @@ import com.wgh.tools.MyPagination;
 public class DiaryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	MyPagination pagination = null;// 数据分页类的对象
-	DiaryDao dao = null;// 日记相关的数据库操作类的对象
+	VenueDao dao = null;// 日记相关的数据库操作类的对象
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -34,7 +35,7 @@ public class DiaryServlet extends HttpServlet {
 	public DiaryServlet() {
 		super();
 		// TODO Auto-generated constructor stub
-		dao = new DiaryDao();// 实例化日记相关的数据库操作类的对象
+		dao = new VenueDao();// 实例化日记相关的数据库操作类的对象
 	}
 
 	/**
@@ -45,15 +46,15 @@ public class DiaryServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		if ("preview".equals(action)) {
-			preview(request, response); // 预览九宫格日记
+			preview(request, response); // 预览场馆信息
 		} else if ("save".equals(action)) {
-			save(request, response); // 保存九宫格日记
+			save(request, response); // 保存所有场馆信息
 		} else if ("listAllDiary".equals(action)) {
-			listAllDiary(request, response); // 查询全部九宫格日记
+			listAllDiary(request, response); // 查询所有场馆信息
 		} else if ("listMyDiary".equals(action)) {
-			listMyDiary(request, response); // 查询我的日记
+			listMyDiary(request, response); // 查询我的订单(暂未实现)
 		} else if ("delDiary".equals(action)) {
-			delDiary(request, response); // 删除我的日记
+			delDiary(request, response); // 删除场馆信息
 		}
 	}
 
@@ -67,8 +68,8 @@ public class DiaryServlet extends HttpServlet {
 	}
 
 	/**
-	 * 功能：删除日记
-	 * 
+	 * 功能：删除场馆信息
+	 * URL 路径问题等待处理
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -77,29 +78,21 @@ public class DiaryServlet extends HttpServlet {
 	private void delDiary(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id")); // 获取要删除的日记的ID
-		String imgName = request.getParameter("imgName"); // 获取图片名
-		String url = request.getParameter("url"); // 获取返回的URL地址
-		int rtn = dao.delDiary(id);// 删除日记
+
+		String url = request.getParameter("url"); // 获取返回的URL地值
 		PrintWriter out = response.getWriter();
-		if (rtn > 0) {// 当删除日记成功时
-			/************* 删除日记图片及缩略图 ******************/
-			String path = getServletContext().getRealPath("\\")+ "images\\diary\\";
-			java.io.File file = new java.io.File(path + imgName + "scale.jpg");// 获取缩略图
-			file.delete();		//删除指定的文件
-			file = new java.io.File(path + imgName + ".png");// 获取日记图片
-			file.delete();
-			/*******************************/
-			out
-					.println("<script>alert('删除日记成功！');window.location.href='DiaryServlet?action="
+		InfoGetter infoGetter = InfoGetter.getInstance();
+		int result= infoGetter.deleteData("venuetable", "venueID", (double)id);
+		if(result >0) {
+			out.println("<script>alert('删除日记成功！');window.location.href='DiaryServlet?action="
 							+ url + "';</script>");
 		} else {// 当删除日记失败时
-			out
-					.println("<script>alert('删除日记失败，请稍后重试！');history.back();</script>");
+			out.println("<script>alert('删除日记失败，请稍后重试！');history.back();</script>");
 		}
 	}
 
 	/**
-	 * 功能：查询我的日记
+	 * 功能：查询场馆信息
 	 * 
 	 * @param request
 	 * @param response

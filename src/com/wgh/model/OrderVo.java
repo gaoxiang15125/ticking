@@ -1,19 +1,21 @@
-﻿package po;
+﻿package com.wgh.model;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.Vector;
 
-public class OrderPo {
+import po.OrderStatus;
+
+public class OrderVo {
 
 	private String orderID;
 	private double money_coust;
 	private Date order_time;
 	private String  purchase_path;
 	private Vector<SeatPo> seatPos;
-	private OrderStatus orderStatus;
+	private String orderStatus;
 	//推荐使用的构造方法，避免有属性没有赋值
-	public OrderPo( String orderID,double money_coust, Date order_time,String  purchase_path,
-	 Vector<SeatPo> seatPos,OrderStatus orderStatus) {
+	public OrderVo( String orderID,double money_coust, Date order_time,String  purchase_path,
+	 Vector<SeatPo> seatPos,String orderStatus) {
 		this.orderID = orderID;
 		this.money_coust =money_coust;
 		this.order_time = order_time;
@@ -22,7 +24,7 @@ public class OrderPo {
 		this.orderStatus = orderStatus;
 	}
 	
-	public OrderPo () {
+	public OrderVo () {
 		seatPos = new Vector<SeatPo>();
 	}
 	
@@ -57,10 +59,10 @@ public class OrderPo {
 	public void setSeatPos(Vector<SeatPo> seatPos) {
 		this.seatPos = seatPos;
 	}
-	public OrderStatus getOrderStatus() {
+	public String getOrderStatus() {
 		return orderStatus;
 	}
-	public void setOrderStatus(OrderStatus orderStatus) {
+	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 	

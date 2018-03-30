@@ -2,6 +2,10 @@ package com.wgh.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +19,10 @@ import javax.servlet.http.HttpSession;
 import com.wgh.dao.UserDao;
 import com.wgh.model.CityMap;
 import com.wgh.model.User;
+import com.wgh.tools.InfoGetter;
+
+import po.UserPo;
+import tools.DateUtil;
 
 /**
  * Servlet implementation class UserServlet
@@ -125,7 +133,7 @@ public class UserServlet extends HttpServlet {
 	public void checkUser(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");		//获取用户名
-		String sql = "SELECT * FROM tb_user WHERE username='" + username + "'";
+		String sql = "SELECT * FROM user WHERE username='" + username + "'";
 		String result = userDao.checkUser(sql);		//调用UserDao类的checkUser()方法判断用户是否被注册
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -144,22 +152,40 @@ public class UserServlet extends HttpServlet {
 	 */
 	public void save(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String username = request.getParameter("user"); // 获取用户名
-		String pwd = request.getParameter("pwd"); // 获取密码
-		String email = request.getParameter("email"); // 获取E-mail地址
-		String city = request.getParameter("city"); // 获取市县
-		String question = request.getParameter("question"); // 获取密码提示问题
-		String answer = request.getParameter("answer"); // 获取密码提示问题答案
-		String sql = "INSERT INTO tb_user (username,pwd,email,question,answer,city) VALUE ('"
-				+ username
-				+ "','"
-				+ pwd
-				+ "','"
-				+ email
-				+ "','"
-				+ question
-				+ "','" + answer + "','" + city + "')";
-		String result = userDao.save(sql);// 保存用户信息
+		UserPo userPo =new UserPo();
+		// 获取用户名
+		userPo.setUserName(request.getParameter("user"));
+		// 获取密码
+		String password = request.getParameter("pwd");
+		// 获取邮箱
+		userPo.setEmail(request.getParameter("email"));
+		// 获取会员许可
+		if(request.getParameter("vip").equals("0")) {
+			userPo.setVip(0);
+		}
+		else {
+			userPo.setVip(1);
+		}
+		// 初始化会员积分
+		userPo.setVip_vaule(0.0);
+		//获取性别
+		userPo.setSex(request.getParameter("sex"));
+		//获取电话号码
+		userPo.setTelphone(request.getParameter("telphone"));
+		//获取用户工作
+		userPo.setJob("购票用户");
+		//获取生日
+		userPo.setBirthday(DateUtil.changeToDate(request.getParameter("birthday")));
+		//获取注册时间
+		userPo.setVipTime(DateUtil.getTimeNow());
+				
+		/**
+		 * 写入注册信息到数据库
+		 */
+		setUserPo( userPo,password);
+		
+		//存储到数据库
+		String result ="存储成功";
 		response.setContentType("text/html"); // 设置响应的类型
 		PrintWriter out = response.getWriter();
 		out.print(result); // 输出执行结果

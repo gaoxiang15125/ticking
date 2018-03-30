@@ -3,7 +3,7 @@ package com.wgh.model;
 import java.util.Date;
 
 public class Venue {
-	private String VenueID;
+	private String VenueID =new String();
 	private  String VenueName;
 	private int SeatNum;
 	private int availSeatNum;

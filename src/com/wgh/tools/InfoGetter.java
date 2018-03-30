@@ -26,7 +26,7 @@ public class InfoGetter {
 		return infoGetter;
 	}
 	//初始化方法
-	private InfoGetter() {
+	public InfoGetter() {
 		baseCreater = SQLConnDB.getInstance();
 		connection = baseCreater.connection;
 		preparedStatement = baseCreater.preparedStatement;
@@ -70,18 +70,19 @@ public class InfoGetter {
 	}	
 
 	//删除目标表中的数据
-	public void deleteData(String tableName,double id){  
-	        String sql = "delete from "+tableName+" where id= ?";  
+	public int deleteData(String tableName,String id,double id_vaule){  
+	        String sql = "delete from "+tableName+" where "+id+" =?";  
 	        PreparedStatement pstmt;
-			try {
+			int result = 0;
+	        try {
 				pstmt = connection.prepareStatement(sql);
-				pstmt.setDouble(1, id);  
-		        int result = pstmt.executeUpdate();  
+				pstmt.setDouble(1, id_vaule);  
+		        result = pstmt.executeUpdate();  
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}  
-	        
+	        return result;
 	         
 	          
 	    }  

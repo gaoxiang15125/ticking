@@ -5,7 +5,7 @@
 <script language="javascript">
 //显示用户注册页面
 function Regopen(divID){
-	getProvince();		//获取省和直辖市	
+	//getProvince();		//获取省和直辖市	
     var notClickDiv=document.getElementById("notClickDiv");	//获取id为notClickDiv的层
 	 notClickDiv.style.display='block';						//设置层显示
 	  document.getElementById("notClickDiv").style.width=document.body.clientWidth;
@@ -159,28 +159,28 @@ function deal_save(){
 /*************************************************************************************************************/
 //获取省份
 function getProvince(){
-	var loader=new net.AjaxRequest("UserServlet?action=getProvince&nocache="+new Date().getTime(),deal_getProvince,onerror,"GET");
+//	var loader=new net.AjaxRequest("UserServlet?action=getProvince&nocache="+new Date().getTime(),deal_getProvince,onerror,"GET");
 }
 function deal_getProvince(){
-	provinceArr=this.req.responseText.split(",");//分割字符串
-	for(i=0;i<provinceArr.length;i++){//设置下拉列表框的列表项
-		document.getElementById("province").options[i]=new Option(provinceArr[i],provinceArr[i]);
-	}
-	if(provinceArr[0]!=""){
-		getCity(provinceArr[0]);	//获取市县
-	}
+	//provinceArr=this.req.responseText.split(",");//分割字符串
+	//for(i=0;i<provinceArr.length;i++){//设置下拉列表框的列表项
+	//	document.getElementById("province").options[i]=new Option(provinceArr[i],provinceArr[i]);
+	//}
+	//if(provinceArr[0]!=""){
+	//	getCity(provinceArr[0]);	//获取市县
+	//}
 }
 /*************************************************************************************************************/
 //获取市县
 function getCity(selProvince){
-	var loader=new net.AjaxRequest("UserServlet?action=getCity&parProvince="+selProvince+"&nocache="+new Date().getTime(),deal_getCity,onerror,"GET");
+	//var loader=new net.AjaxRequest("UserServlet?action=getCity&parProvince="+selProvince+"&nocache="+new Date().getTime(),deal_getCity,onerror,"GET");
 }
 function deal_getCity(){
-	cityArr=this.req.responseText.split(",");//分割字符串
-	document.getElementById("city").length=0;	//清空下拉列表
-	for(i=0;i<cityArr.length;i++){//设置下拉列表框的列表项
-		document.getElementById("city").options[i]=new Option(cityArr[i],cityArr[i]);
-	}
+	//cityArr=this.req.responseText.split(",");//分割字符串
+	//document.getElementById("city").length=0;	//清空下拉列表
+	//for(i=0;i<cityArr.length;i++){//设置下拉列表框的列表项
+	//	document.getElementById("city").options[i]=new Option(cityArr[i],cityArr[i]);
+	//}
 }
 /*************************************************************************************************************/
 /*************************************************************************************************************/
@@ -190,7 +190,7 @@ function onerror(){		//错误处理函数
 //重置表单函数
 function form_reset(form){
 	form.reset();		//重置表单
-	getProvince();		//获取省和直辖市
+	//getProvince();		//获取省和直辖市
 	document.getElementById("tr_user").style.display='none';
 	document.getElementById("tr_pwd").style.display='none';
 	document.getElementById("tr_email").style.display='none';
@@ -205,7 +205,7 @@ function form_reset(form){
       <tr>
         <td height="408" align="center" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tr>
-            <td height="50" style="color:#1B7F5D;font-size: 14px;"><b>清爽夏日九宫格日记网--用户注册</b></td>
+            <td height="50" style="color:#1B7F5D;font-size: 14px;"><b>风之谷售票网--用户注册</b></td>
           </tr>
         </table>
           <table width="94%" height="331" border="0" cellpadding="0" cellspacing="1" bgcolor="#CCCCCC">
@@ -241,14 +241,6 @@ function form_reset(form){
                     &nbsp;* 请输入有效的E-mail地址，在找回密码时应用 </td>
                 </tr>
                 <tr>
-                  <td height="40" align="right">所在地：</td>
-                  <td height="40" align="left"><select name="province" id="province" onChange="getCity(this.value)">
-                  </select>
-                  -
-                  <select name="city" id="city">
-                      </select></td>
-                </tr>
-                <tr>
                   <td height="40" colspan="2" align="center">以下两个选项，只要有任何一个没有输入，将不可以通过答案问题重新设置密码。</td>
                 </tr>
                 <tr id="tr_question" style="display:none">
@@ -257,7 +249,7 @@ function form_reset(form){
                 <tr>
                   <td height="40" align="right">密码提示问题：</td>
                   <td height="40" align="left"><input name="question" type="text" id="question" size="35" onBlur="checkQuestion(this.value,this.form.answer.value)">
-                    如：我的工作单位</td>
+                    如：我的学号</td>
                 </tr>
                 <tr id="tr_answer" style="display:none">
                   <td height="40" colspan="2" align="center"><div id="div_answer" style="border:#FF6600 1px solid; color:#FF0000; width:90%; height:29px; padding-top:8px; background-image:url(images/div_bg.jpg)"></div></td>
@@ -265,7 +257,7 @@ function form_reset(form){
                 <tr>
                   <td height="40" align="right">提示问题答案：</td>
                   <td height="40" align="left"><input name="answer" type="text" id="answer" size="35" onBlur="checkQuestion(this.form.question.value,this.value)">
- 如：明日科技                  </td>
+ 如：15125XXXX              </td>
                 </tr>
                 <tr>
                   <td height="40">&nbsp;</td>

@@ -16,6 +16,11 @@ import java.util.Date;
   
 public class DateUtil {  
       
+	/**
+	 * 将date类型转化为String类型
+	 * @param date
+	 * @return
+	 */
      public static String  dateToString(Date date){
     	 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");  
          String specifiedDay = '"'+sdf.format(date)+'"';  
